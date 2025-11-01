@@ -1,0 +1,210 @@
+/* =========================
+   공통: 왜곡 방지 & 중심 그리드
+========================= */
+img, video { display:block; max-width:100%; height:auto; object-fit:contain; }
+svg { width:100%; height:auto; }
+
+:root{
+  /* 1920 기준 → 축소 시 자연스럽게 줄어드는 여백/글자 */
+  --content-max: 1350px;                /* 중앙 콘텐츠 최대폭 */
+  --side-pad: clamp(16px, 6vw, 240px);  /* 좌우 패딩 */
+  --title-fz: clamp(22px, 2.2vw, 34px); /* 큰 타이틀 */
+  --body-fz:  clamp(15px, 1.6vw, 20px); /* 본문 */
+}
+
+/* 모든 주요 중앙 컨테이너 공통 폭/패딩 */
+.Problem,
+.design-system,
+.font-system,
+.Onboarding-content,
+.onboarding-content,
+.service-boxs,
+.persona-card,
+.servey,
+.solutions-wrapper,
+.route-guidance-wrapper,
+.communication-wrapper,
+.post-report-wrapper,
+.wearable-device-wrapper,
+.Citizen-Mode-wrapper,
+#Mainhome .main-title-wrap,
+#Mainhome .sub-title-wrap,
+.cops-footer .footer-inner-content{
+  max-width: var(--content-max);
+  width: 100%;
+  margin: 0 auto;
+  padding-left: var(--side-pad);
+  padding-right: var(--side-pad);
+}
+
+/* =========================
+   헤더 / 네비
+========================= */
+header{
+  position: fixed; top:0; left:50%; transform:translateX(-50%);
+  width:100%; max-width:1920px; z-index:1000;
+  padding: 0 var(--side-pad);
+}
+.nav{ margin:32px auto; width:100%; max-width:min(840px, 100%); }
+.nav-section{ display:flex; gap: clamp(24px, 4.5vw, 85px); justify-content:center; }
+
+/* =========================
+   히어로(메인)
+========================= */
+#main-section .main-bg{
+  background-position: top center;
+  background-repeat:no-repeat;
+  background-size:cover; /* 축소해도 꽉 차게 */
+}
+.main-title .title-text{ font-size: clamp(20px, 1.8vw, 28px); line-height:1.4; }
+.main-logo img{ width:min(520px, 40vw); margin: clamp(12px, 3vw, 24px) auto 0; }
+.main-phone{ display:flex; gap:24px; justify-content:center; }
+.main-phone > div{ width:min(420px, 34vw); }
+
+/* =========================
+   Key Insight(텍스트)
+========================= */
+.key-insight-section .insight{ font-size: var(--title-fz); }
+.key-insight-section .insight-content{ font-size: var(--body-fz); line-height:1.65; }
+
+/* =========================
+   Insight 배경(양 옆 끝까지)
+========================= */
+#insight-image{
+  width:100vw; left:50%; transform:translateX(-50%);
+  background-position:center center; background-repeat:no-repeat; background-size:cover;
+  min-height: clamp(360px, 42vw, 620px);
+  margin: clamp(32px, 5vw, 65px) 0 0;
+  padding: clamp(32px, 6vw, 70px) 0 60px;
+}
+
+/* =========================
+   설문 1 (그래프 + 리스트)
+========================= */
+.graph-card .graph{ width:100%; }
+.graph-title{ font-size: clamp(18px, 1.8vw, 24px); }
+.graph .bar .bar-label{ font-size: clamp(12px, 1.2vw, 14px); }
+.graph .bar .bar-value{ font-size: clamp(12px, 1.2vw, 14px); }
+
+.second-graph-card-list-content{
+  display:grid; grid-template-columns: 1.1fr 1fr; gap: clamp(16px, 4vw, 40px);
+}
+
+/* =========================
+   디자인 시스템 - 좌우 배치 → 축소 시 1단
+========================= */
+.design-img-box{ display:grid; grid-template-columns: 1fr auto; gap:24px; }
+.design-img-box2{ max-width: 520px; }
+
+/* =========================
+   서비스 3박스 (3→2→1)
+========================= */
+.service-boxs{ display:grid; grid-template-columns: repeat(3,1fr); gap: clamp(16px, 3vw, 32px); }
+.service-hover-image img{ width:100%; height:auto; object-fit:cover; }
+
+/* =========================
+   온보딩 (2→1)
+========================= */
+.onboarding-content{
+  display:grid; grid-template-columns: 1fr 1.2fr; gap: clamp(16px, 4vw, 40px); align-items:start;
+}
+.onboarding-content video{ width:100%; height:auto; }
+
+/* =========================
+   Main Home 솔루션 (3→2→1)
+========================= */
+.solutions-wrapper{ display:grid; grid-template-columns: repeat(3,1fr); gap: clamp(16px, 3vw, 28px); }
+
+/* =========================
+   경로/소통/리포트/워치/시민모드 (2→1)
+========================= */
+.route-guidance-wrapper,
+.communication-wrapper,
+.post-report-wrapper,
+.wearable-device-wrapper,
+.Citizen-Mode-image{
+  display:grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 4vw, 40px);
+}
+
+/* =========================
+   페르소나 (3→2→1)
+========================= */
+.persona-card{ display:grid; grid-template-columns: repeat(3,1fr); gap: clamp(16px, 3vw, 28px); }
+
+/* =========================
+   큰 제목/본문 타이폴로지
+========================= */
+.problem-title,
+.onboarding-title,
+.route-guidance-title,
+.commnication-title,
+.post-report-title,
+.Wearable-device-title,
+.Citizen-Mode-title,
+.mainhome-title{ font-size: var(--title-fz); line-height:1.28; }
+.problem-subtitle,
+.insight-content,
+.sub-title{ font-size: var(--body-fz); line-height:1.65; }
+
+/* =========================
+   장식 SVG/라인
+========================= */
+.line-box-line svg{ width:100%; height:auto; }
+#Device img{ width:100%; height:auto; }
+
+/* =========================
+   푸터
+========================= */
+.cops-footer .footer-inner-content{
+  display:grid; grid-template-columns: 1.1fr 1fr; gap: clamp(16px, 4vw, 40px);
+}
+.cops-top-btn{ right: clamp(12px, 3vw, 32px); bottom: clamp(12px, 3vw, 32px); }
+
+/* =========================================
+   🔻 BREAKPOINTS (1920 기준 예쁘게 줄어들게)
+========================================= */
+
+/* 1440~1280: 중앙폭 살짝 축소 */
+@media (max-width: 1440px){
+  :root{ --content-max: 1180px; }
+  .nav{ max-width: 720px; }
+}
+
+/* 1280~1024: 2단 전환 준비 */
+@media (max-width: 1280px){
+  :root{ --content-max: 1040px; }
+  .second-graph-card-list-content{ grid-template-columns: 1fr; }
+  .design-img-box{ grid-template-columns: 1fr; }
+  .service-boxs{ grid-template-columns: repeat(2,1fr); }
+  .solutions-wrapper{ grid-template-columns: repeat(2,1fr); }
+}
+
+/* 1024~768: 대부분 1단, 여백 감소 */
+@media (max-width: 1024px){
+  :root{ --content-max: 940px; --side-pad: clamp(16px, 5vw, 32px); }
+  .onboarding-content{ grid-template-columns: 1fr; }
+  .route-guidance-wrapper,
+  .communication-wrapper,
+  .post-report-wrapper,
+  .wearable-device-wrapper,
+  .Citizen-Mode-image{ grid-template-columns: 1fr; }
+  .persona-card{ grid-template-columns: repeat(2,1fr); }
+}
+
+/* 768 이하: 모바일 최적화 */
+@media (max-width: 768px){
+  :root{ --content-max: 680px; --side-pad: clamp(14px, 4.5vw, 24px); }
+  .service-boxs,
+  .solutions-wrapper{ grid-template-columns: 1fr; }
+  .persona-card{ grid-template-columns: 1fr; }
+  .nav{ margin: 16px auto; }
+  .nav-section{ gap: clamp(12px, 3.2vw, 18px); font-size: 14px; }
+  .main-logo img{ width:min(380px, 62vw); }
+}
+
+/* 600 이하: 타이틀/간격 더 타이트 */
+@media (max-width: 600px){
+  :root{ --title-fz: clamp(20px, 5.6vw, 24px); --body-fz: clamp(14px, 3.8vw, 16px); }
+  .graph-title{ font-size: clamp(16px, 4.5vw, 18px); }
+  #insight-image{ min-height: clamp(280px, 54vw, 480px); }
+}

@@ -1,0 +1,798 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --aqua: #19F8E6;
+    --text: #f1f1f1;
+    --bar-dim: #6a6a6a;
+    --content-max: 1920px;
+    --content-pad: 240px;
+
+    --line-color: #ffffff;
+    --dash: 4px;
+    --gap: 4px;
+    --line-w: 2px;
+    --line-h: 130px;
+    --dot: 10px;
+}
+
+#Design {
+    max-width: var(--content-max);
+    width: 100%;
+    margin: 0 auto 0;
+    padding: 350px var(--content-pad) 0;
+    display: block;
+}
+
+
+.design-system-title {
+    color: #19F8E6;
+    font-family: "Zalando Sans Expanded";
+    font-size: 34px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: -0.6px;
+}
+
+.system-box {
+    width: 1438px;
+    height: 704px;
+    border-radius: 15px;
+    background: #2E2E2E;
+    margin-top: 111px;
+    padding: 42px 55px 88.19px;
+}
+
+.system-box-title {
+    color: #F1F1F1;
+    font-family: "Zalando Sans Expanded";
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: -0.6px;
+}
+
+.line-box {
+    position: relative;
+    padding: 95px 141px 0;
+    isolation: isolate;
+}
+
+.line-box-line {
+    position: relative;
+    z-index: 0;
+}
+
+.line-box-img {
+    position: absolute;
+    top: 61%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.line-box-line line {
+    transition: stroke-dashoffset 900ms ease;
+}
+
+.line-box-img img {
+    opacity: 0;
+    transition: opacity 5000ms ease;
+}
+
+.line-box-img.show img {
+    opacity: 1;
+}
+
+
+
+.design-img-box {
+    margin-top: 48px;
+    display: flex;
+    gap: 20px;
+}
+
+.design-img-box2 {
+    width: 710px;
+    height: 715.01px;
+    border-radius: 15px;
+    background: #19F8E6;
+    padding: 41px;
+}
+
+.design-img-box2-title {
+    color: #191919;
+    font-family: "Zalando Sans Expanded";
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: -0.6px;
+}
+
+.design-img-box2-img {
+    margin: 114px 152px;
+}
+
+.font-system {
+    display: flex;
+    margin-top: 150px;
+}
+
+.font-color {
+    color: #FAFAF8;
+    font-family: "Zalando Sans Expanded";
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: -0.6px;
+}
+
+.system-subtext {
+    color: #FFF;
+    font-family: "Pretendard", sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 130%;
+    opacity: 0.7;
+    margin-top: 73px;
+}
+
+.system-main {
+    color: #FFF;
+    font-family: "Pretendard", sans-serif;
+    font-size: 80px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%;
+    margin-top: 29.3px;
+}
+
+
+.system-text {
+    color: #F1F1F1;
+    text-align: center;
+    font-family: "Pretendard", sans-serif;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 155%;
+    letter-spacing: -0.56px;
+    margin-top: 92.61px;
+}
+
+.font-content {
+    display: flex;
+    gap: 97px;
+    width: 346.164px;
+    height: 344px;
+    margin-top: 36.99px;
+}
+
+.font-content1 {
+    width: 140.164px;
+    height: 344px;
+    flex-shrink: 0;
+
+}
+
+.font-content2 {
+    width: 109px;
+    height: 343.999px;
+    flex-shrink: 0;
+    margin-top: 2.8px;
+}
+
+.system-content1 {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.system-content2 {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 8px;
+}
+
+.system-content3 {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 16px;
+}
+
+.system-content4 {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 21px;
+}
+
+.system-content5 {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 24px;
+}
+
+.system-content6 {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.system-content7 {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 28.43px;
+}
+
+.system-content8 {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 31.43px;
+}
+
+.system-content9 {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 26.43px;
+}
+
+.system-content10 {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 26.43px;
+}
+
+.system-title1 {
+    color: #FFF;
+    font-family: "Pretendard", sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 130%;
+    opacity: 0.7;
+}
+
+.system-title2 {
+    color: #FFF;
+    font-family: "Pretendard", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 130%;
+    opacity: 0.7;
+}
+
+.system-subtitle1 {
+    color: #FFF;
+    font-family: "Pretendard", sans-serif;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 130%;
+}
+
+.system-subtitle2 {
+    color: #FFF;
+    font-family: "Pretendard", sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%;
+}
+
+.system-subtitle3 {
+    color: #FFF;
+    font-family: "Pretendard", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%;
+}
+
+.system-subtitle4 {
+    color: #FFF;
+    font-family: "Pretendard", sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%;
+}
+
+.system-subtitle5 {
+    color: #FFF;
+    font-family: "Pretendard", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%;
+}
+
+.system-subtitle6 {
+    color: #FFF;
+    font-family: "Pretendard", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%;
+}
+
+.system-subtitle7 {
+    color: #FFF;
+    font-family: "Pretendard", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%;
+}
+
+.system-subtitle8 {
+    color: #FFF;
+    font-family: "Pretendard", sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%;
+}
+
+.system-subtitle9 {
+    color: #FFF;
+    font-family: "Pretendard", sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%;
+}
+
+.system-subtitle10 {
+    color: #FFF;
+    font-family: "Pretendard", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%;
+}
+
+.second-color-content {
+    margin-left: 194.06px;
+}
+
+.font-color2 {
+    color: #FAFAF8;
+    font-family: "Zalando Sans Expanded";
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: -0.6px;
+}
+
+.color5 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cops-color1 {
+    width: 345px;
+    height: 319.765px;
+    flex-shrink: 0;
+    border-radius: 7px;
+    background: #19F8E6;
+    margin-top: 101.05px;
+    padding: 9px 19px;
+    position: relative;
+}
+
+.cops-color1-name {
+    color: #1A1A1A;
+    font-family: "Zalando Sans Expanded";
+    font-size: 17.73px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%;
+    letter-spacing: -0.355px;
+}
+
+.cops-color11-name {
+    color: #1A1A1A;
+    text-align: right;
+    font-family: "Zalando Sans Expanded";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+    letter-spacing: -0.32px;
+    position: absolute;
+    bottom: 9px;
+    right: 19px;
+}
+
+.cops-color2 {
+    width: 345px;
+    height: 95.124px;
+    border-radius: 7px;
+    background: #FF0000;
+    padding: 9px 19px;
+    position: relative;
+}
+
+.cops-color2-name {
+    color: #1A1A1A;
+    font-family: "Zalando Sans Expanded";
+    font-size: 17.73px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%;
+    letter-spacing: -0.355px;
+}
+
+.cops-color22-name {
+    color: #1A1A1A;
+    text-align: right;
+    font-family: "Zalando Sans Expanded";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+    letter-spacing: -0.32px;
+    position: absolute;
+    bottom: 9px;
+    right: 19px;
+}
+
+.cops-color3 {
+    width: 345px;
+    height: 95.124px;
+    flex-shrink: 0;
+    border-radius: 7px;
+    background: #FFC943;
+    position: relative;
+    padding: 9px 19px;
+}
+
+.cops-color3-name {
+    color: #1A1A1A;
+    font-family: "Zalando Sans Expanded";
+    font-size: 17.73px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%;
+    letter-spacing: -0.355px;
+}
+
+.cops-color33-name {
+    color: #1A1A1A;
+    text-align: right;
+    font-family: "Zalando Sans Expanded";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+    letter-spacing: -0.32px;
+    position: absolute;
+    bottom: 9px;
+    right: 19px;
+}
+
+.cops-color4 {
+    width: 345px;
+    height: 95.124px;
+    flex-shrink: 0;
+    border-radius: 7px;
+    background: #73FF00;
+    position: relative;
+    padding: 9px 19px;
+}
+
+.cops-color4-name {
+    color: #1A1A1A;
+    font-family: "Zalando Sans Expanded";
+    font-size: 17.73px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%;
+    letter-spacing: -0.355px;
+}
+
+.cops-color44-name {
+    color: #1A1A1A;
+    text-align: right;
+    font-family: "Zalando Sans Expanded";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+    letter-spacing: -0.32px;
+    position: absolute;
+    bottom: 9px;
+    right: 19px;
+}
+
+.color7 {
+    width: 467px;
+    height: 636px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    margin-left: 19px;
+    margin-top: 146px;
+}
+
+.color7-1 {
+    width: 467px;
+    height: 91px;
+    flex-shrink: 0;
+    border-radius: 7px;
+    background: #F1F1F1;
+}
+
+.color7-2 {
+    width: 467px;
+    height: 91px;
+    flex-shrink: 0;
+    border-radius: 7px;
+    background: #B1B1B1;
+}
+
+.color7-3 {
+    width: 467px;
+    height: 91px;
+    flex-shrink: 0;
+    border-radius: 7px;
+    background: #858585;
+}
+
+.color7-4 {
+    width: 467px;
+    height: 91px;
+    flex-shrink: 0;
+    border-radius: 7px;
+    background: #606060;
+}
+
+.color7-5 {
+    width: 467px;
+    height: 91px;
+    flex-shrink: 0;
+    border-radius: 7px;
+    background: #464646;
+}
+
+.color7-6 {
+    width: 467px;
+    height: 91px;
+    flex-shrink: 0;
+    border-radius: 7px;
+    background: #303030;
+}
+
+.color7-7 {
+    width: 467px;
+    height: 91px;
+    flex-shrink: 0;
+    border-radius: 7px;
+    background: #1A1A1A;
+}
+
+/* 선 애니메이션 기존 유지 */
+.line-box-line line {
+    transition: stroke-dashoffset 900ms ease;
+}
+
+/* 로고 디졸브 기존 유지 + 조금 더 자연스럽게 하고 싶다면 시간 조절 가능 */
+.line-box-img img {
+    opacity: 0;
+    transition: opacity 700ms ease;
+}
+
+.line-box-img.show img {
+    opacity: 1;
+}
+
+/* 공통 리빌(위→아래 촤르륵) */
+.reveal-init {
+    opacity: 0;
+    transform: translateY(-16px);
+    transition: opacity 600ms ease, transform 600ms ease;
+    will-change: opacity, transform;
+}
+
+.reveal-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+
+.gradient-bg1 {
+    margin-top: 334px;
+}
+
+#Service {
+    max-width: var(--content-max);
+    width: 100%;
+    margin: -150px auto 0;
+    padding: 0px var(--content-pad) 0;
+    display: block;
+}
+
+.onboarding-title {
+    color: #19F8E6;
+    font-family: "Zalando Sans Expanded";
+    font-size: 34px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: -0.68px;
+}
+
+.onboarding-subtitle {
+    color: #F1F1F1;
+    font-family: "Pretendard", sans-serif;
+    font-size: 44px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 145%;
+    letter-spacing: -0.88px;
+    margin-top: 61px;
+}
+
+.onboarding-subtext {
+    color: #F1F1F1;
+    font-family: "Pretendard", sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+    letter-spacing: -0.48px;
+    opacity: 0.8;
+    margin-top: 28px;
+}
+
+.onboarding-content {
+    margin-top: 164px;
+    display: flex;
+}
+
+.onboarding-content2 {
+    display: flex;
+    flex-direction: column;
+}
+
+.onboarding-content-header {
+    display: flex;
+    width: 937px;
+    height: 32px;
+    flex-shrink: 0;
+    margin-top: 25.65px;
+}
+
+.onboarding-line1 {
+    width: 177px;
+    height: 1px;
+    flex-shrink: 0;
+    stroke-width: 2px;
+    stroke: rgba(241, 241, 241, 0.50);
+    margin-left: -10px;
+}
+
+.step {
+    width: 75px;
+    color: #F1F1F1;
+    font-family: "Zalando Sans Expanded";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+    letter-spacing: -0.4px;
+    margin: 0 21px 0;
+}
+
+.onboarding-line2 {
+    width: 212px;
+    height: 1px;
+    flex-shrink: 0;
+    stroke-width: 2px;
+    stroke: rgba(241, 241, 241, 0.50);
+}
+
+.onboarding-line3 {
+    width: 219px;
+    height: 1px;
+    flex-shrink: 0;
+    stroke-width: 2px;
+    stroke: rgba(241, 241, 241, 0.50);
+}
+
+.onboarding-content-sub {
+    width: 980.889px;
+    height: 678.72px;
+    flex-shrink: 0;
+    margin-top: 33.95px;
+    margin-left: 74.74px;
+    display: flex;
+    gap: 20px;
+}
+
+.onboarding-sub1,
+.onboarding-sub2,
+.onboarding-sub3 {
+    width: 313.89px;
+    height: 678.72px;
+    flex-shrink: 0;
+    aspect-ratio: 313.41/678.72;
+    border-radius: 32.69px;
+    border: 0.8px solid rgba(241, 241, 241, 0.30);
+}
+
+video {
+    transition: opacity 0.8s ease;
+    width: 100%;
+}
+
+video.playing {
+    opacity: 1;
+}
+
+/* Step 텍스트: 처음엔 숨김 → show 붙으면 등장 */
+.onboarding-step .step {
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 380ms ease, transform 380ms ease;
+}
+
+.onboarding-step .step.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 라인 컨테이너 폭을 0→원래값으로 전개하며 점선을 '그려내기' */
+.onboarding-line1,
+.onboarding-line2,
+.onboarding-line3 {
+    overflow: hidden;
+    margin-top: 15px;
+    /* 내부 SVG를 잘라내며 노출 */
+    transition: width 700ms ease;
+    /* JS에서 width를 0→원래값으로 변경 */
+}
+
+.onboarding-line1 svg,
+.onboarding-line2 svg,
+.onboarding-line3 svg {
+    display: block;
+    width: 100%;
+    height: 2px;
+    /* 컨테이너와 동일 */
+}
+
+/* 비디오 페이드 전환 */
+.onboarding-content-sub video {
+    opacity: 0;
+    transition: opacity 600ms ease;
+}
+
+.onboarding-content-sub video.active {
+    opacity: 1;
+}
+
+
