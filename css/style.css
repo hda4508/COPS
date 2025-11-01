@@ -26,6 +26,7 @@ body {
     max-width: 100%;
     overflow-x: hidden;
     cursor: url("../img/cursor.png") 4 4, auto;
+    scroll-behavior: smooth;
 }
 
 body {
