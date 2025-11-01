@@ -283,7 +283,16 @@
         </div>
     </section>
 
-    <section id="Video"></section>
+    <section id="Video">
+        <h2 class="Video-title">Video</h2>
+        <div class="video-wrap">
+            <div class="video-play" id="videoBox">
+                <video id="mainVideo" src="./img1/COPS-VIDEO.mp4"></video>
+                <div class="video-overlay">▶ Click to Play</div>
+            </div>
+        </div>
+    </section>
+
 
 
 
@@ -304,8 +313,8 @@
             </div>
 
             <!-- 카드 인터랙션 -->
-            <div class="info-section">
-                <div class="fail-card">
+            <div class="info-section" data-replay-scope data-reset="show">
+                <div class="fail-card" data-reset="show">
                     <div class="fail-card-title">
                         <p class="fail">예방 실패</p>
                         <div class="step-number">1</div>
@@ -315,7 +324,7 @@
                         112 신고가 18시 34분부터 접수되었으나 신속한 대응이 이뤄지지 않았습니다.
                     </p>
                 </div>
-                <div class="fail-card">
+                <div class="fail-card" data-reset="show">
                     <div class="fail-card-title">
                         <p class="fail">대응 실패</p>
                         <div class="step-number">2</div>
@@ -326,7 +335,7 @@
                         상황을 공유하지 못했습니다.
                     </p>
                 </div>
-                <div class="fail-card">
+                <div class="fail-card" data-reset="show">
                     <div class="fail-card-title">
                         <p class="fail">구조적 문제</p>
                         <div class="step-number">3</div>
@@ -337,8 +346,8 @@
                     </p>
                 </div>
             </div>
-            <div class="drop-line-1"></div>
-            <div class="gradient-title">
+            <div class="drop-line-1" data-replay-scope data-reset="show"></div>
+            <div class="gradient-title" data-replay-scope data-reset="show">
                 모든 시민의 위험을 예측·대응하고, 현장과 본부가 <br>
                 신속히 의사결정을 내릴 수 있는 통합 서비스가 필요합니다.
             </div>
@@ -416,14 +425,14 @@
                 </div>
             </div>
 
-            <div class="servey-first">
+            <div class="servey-first" data-replay-scope >
 
                 <!-- 그래프 카드 -->
                 <div class="graph-card">
                     <h2 class="graph-title">
                         <span class="q-family">Q.</span> 기존 재난 문자에 대해 어떻게 생각하시나요?
                     </h2>
-                    <div class="graph" id="graph-1">
+                    <div class="graph" id="graph-1"data-reset="is-active">
                         <figure class="bar" style="--val: 19.6; --bar: var(--bar-dim);">
                             <figcaption class="bar-value">9.8%</figcaption>
                             <span class="bar-column"></span>
@@ -452,7 +461,7 @@
                 </div>
 
                 <!-- 오른쪽 리스트 부분 -->
-                <div class="graph-card-list" id="graph-1-list">
+                <div class="graph-card-list" id="graph-1-list" data-reset="show">
                     <div class="graph-list">
                         <div class="graph-list-content">
                             <p class="A1">A1.&nbsp;</p>
@@ -502,8 +511,8 @@
                 </div>
             </div>
 
-            <div class="second-graph-card-list-content">
-                <div class="second-graph-card-list">
+            <div class="second-graph-card-list-content" data-replay-scope>
+                <div class="second-graph-card-list" data-reset="show">
                     <div class="second-graph-list">
                         <div class="graph-list-content">
                             <p class="A1">A1.&nbsp;</p>
@@ -550,7 +559,7 @@
                             사용할 것 같나요?
                         </p>
                     </h2>
-                    <div class="graph" id="graph-2">
+                    <div class="graph" id="graph-2" data-reset="is-active">
                         <figure class="bar" style="--val: 90; --bar: var(--aqua);">
                             <figcaption class="bar-value">53.1%</figcaption>
                             <span class="bar-column"></span>
@@ -575,7 +584,7 @@
         </div>
     </div>
 
-    <section class="key-insight-section">
+    <section class="key-insight-section" >
         <div class="drop-line-2"></div>
 
 
@@ -611,7 +620,7 @@
         <p class="problem-title">
             Persona
         </p>
-        <div class="persona-card">
+        <div class="persona-card" data-replay-scope>
             <div class="persona-card-1">
                 <div class="persona-cards">
                     <div class="persona-card-img">
@@ -632,7 +641,7 @@
                     </div>
                 </div>
                 <div class="persona-section">
-                    <div class="persona-line" data-interact>
+                    <div class="persona-line" data-reset="show-persona">
                         <svg xmlns="http://www.w3.org/2000/svg" width="8" height="63" viewBox="0 0 8 63" fill="none">
                             <path
                                 d="M4 55C1.79086 55 1.96443e-06 56.7909 2.04085e-06 59C2.11726e-06 61.2091 1.79086 63 4 63C6.20914 63 8 61.2091 8 59C8 56.7909 6.20914 55 4 55ZM4 0L3.25 4.14277e-08L3.25 2.10714L4 2.10714L4.75 2.10714L4.75 -4.14277e-08L4 0ZM4 6.32143L3.25 6.32143L3.25 10.5357L4 10.5357L4.75 10.5357L4.75 6.32143L4 6.32143ZM4 14.75L3.25 14.75L3.25 18.9643L4 18.9643L4.75 18.9643L4.75 14.75L4 14.75ZM4 23.1786L3.25 23.1786L3.25 27.3929L4 27.3929L4.75 27.3929L4.75 23.1786L4 23.1786ZM4 31.6071L3.25 31.6071L3.25 35.8214L4 35.8214L4.75 35.8214L4.75 31.6071L4 31.6071ZM4 40.0357L3.25 40.0357L3.25 44.25L4 44.25L4.75 44.25L4.75 40.0357L4 40.0357ZM4 48.4643L3.25 48.4643L3.25 52.6786L4 52.6786L4.75 52.6786L4.75 48.4643L4 48.4643ZM4 56.8929L3.25 56.8929L3.25 59L4 59L4.75 59L4.75 56.8929L4 56.8929Z"
@@ -646,7 +655,7 @@
                             </defs>
                         </svg>
                     </div>
-                    <div class="persona-box">
+                    <div class="persona-box" data-reset="show-persona">
                         <p class="persona-text">
                             재난 시 즉각 경보를 제공하고 <br>
                             위험구역을 시각적으로 표시하도록 함
@@ -674,7 +683,7 @@
                     </div>
                 </div>
                 <div class="persona-section">
-                    <div class="persona-line">
+                    <div class="persona-line" data-reset="show-persona">
                         <svg xmlns="http://www.w3.org/2000/svg" width="8" height="63" viewBox="0 0 8 63" fill="none">
                             <path
                                 d="M4 55C1.79086 55 1.96443e-06 56.7909 2.04085e-06 59C2.11726e-06 61.2091 1.79086 63 4 63C6.20914 63 8 61.2091 8 59C8 56.7909 6.20914 55 4 55ZM4 0L3.25 4.14277e-08L3.25 2.10714L4 2.10714L4.75 2.10714L4.75 -4.14277e-08L4 0ZM4 6.32143L3.25 6.32143L3.25 10.5357L4 10.5357L4.75 10.5357L4.75 6.32143L4 6.32143ZM4 14.75L3.25 14.75L3.25 18.9643L4 18.9643L4.75 18.9643L4.75 14.75L4 14.75ZM4 23.1786L3.25 23.1786L3.25 27.3929L4 27.3929L4.75 27.3929L4.75 23.1786L4 23.1786ZM4 31.6071L3.25 31.6071L3.25 35.8214L4 35.8214L4.75 35.8214L4.75 31.6071L4 31.6071ZM4 40.0357L3.25 40.0357L3.25 44.25L4 44.25L4.75 44.25L4.75 40.0357L4 40.0357ZM4 48.4643L3.25 48.4643L3.25 52.6786L4 52.6786L4.75 52.6786L4.75 48.4643L4 48.4643ZM4 56.8929L3.25 56.8929L3.25 59L4 59L4.75 59L4.75 56.8929L4 56.8929Z"
@@ -688,7 +697,7 @@
                             </defs>
                         </svg>
                     </div>
-                    <div class="persona-box">
+                    <div class="persona-box" data-reset="show-persona">
                         <p class="persona-text">
                             재난 상황을 미리 대처할 수 있도록<br>
                             AI가 대응 과정을 기록하고 분석하여 제공함
@@ -715,7 +724,7 @@
                     </div>
                 </div>
                 <div class="persona-section">
-                    <div class="persona-line">
+                    <div class="persona-line" data-reset="show-persona">
                         <svg xmlns="http://www.w3.org/2000/svg" width="8" height="63" viewBox="0 0 8 63" fill="none">
                             <path
                                 d="M4 55C1.79086 55 1.96443e-06 56.7909 2.04085e-06 59C2.11726e-06 61.2091 1.79086 63 4 63C6.20914 63 8 61.2091 8 59C8 56.7909 6.20914 55 4 55ZM4 0L3.25 4.14277e-08L3.25 2.10714L4 2.10714L4.75 2.10714L4.75 -4.14277e-08L4 0ZM4 6.32143L3.25 6.32143L3.25 10.5357L4 10.5357L4.75 10.5357L4.75 6.32143L4 6.32143ZM4 14.75L3.25 14.75L3.25 18.9643L4 18.9643L4.75 18.9643L4.75 14.75L4 14.75ZM4 23.1786L3.25 23.1786L3.25 27.3929L4 27.3929L4.75 27.3929L4.75 23.1786L4 23.1786ZM4 31.6071L3.25 31.6071L3.25 35.8214L4 35.8214L4.75 35.8214L4.75 31.6071L4 31.6071ZM4 40.0357L3.25 40.0357L3.25 44.25L4 44.25L4.75 44.25L4.75 40.0357L4 40.0357ZM4 48.4643L3.25 48.4643L3.25 52.6786L4 52.6786L4.75 52.6786L4.75 48.4643L4 48.4643ZM4 56.8929L3.25 56.8929L3.25 59L4 59L4.75 59L4.75 56.8929L4 56.8929Z"
@@ -729,7 +738,7 @@
                             </defs>
                         </svg>
                     </div>
-                    <div class="persona-box">
+                    <div class="persona-box" data-reset="show-persona">
                         <p class="persona-text">
                             음성·알림으로 위험을 즉시 알리며<br>
                             위치 기반 안전하고 빠른 대피경로를 제공함
@@ -1388,7 +1397,7 @@
 
         <div class="communication-wrapper">
             <div class="communication-image">
-                <video src="./img1/실시간1-1.mp4" alt="Communication" autoplay muted loop controls></video>
+                <video src="./img1/요청_1.mp4" alt="Communication" loop autoplay muted></video>
             </div>
         </div>
 
@@ -1419,7 +1428,7 @@
         <div class="solution5">
             <div class="post-report-wrapper">
                 <div class="post-report-image">
-                    <video src="./img1/게시판.mp4" alt="Citizen-Mode-4" loop autoplay muted></video>
+                    <video src="./img1/리포트.mp4" alt="Citizen-Mode-4" loop autoplay muted></video>
                 </div>
             </div>
 
@@ -1618,6 +1627,7 @@
 
     <script src="./script/script.js"></script>
     <script src="./script/1.js"></script>
+    <script src="./script/scale-1920.js"></script>
 </body>
 
 </html>

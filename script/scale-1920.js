@@ -1,28 +1,35 @@
-// ../script/scale-1920.js
-(function () {
-  const DESIGN_WIDTH = 1920; // 네 기준 폭
+(() => {
+  // reflow로 CSS keyframes/transition 재점화
+  const reflow = (el) => { el.style.animation = 'none'; el.offsetHeight; el.style.animation = ''; };
 
-  function applyScale() {
-    const stage = document.getElementById('stage');
-    const app   = document.getElementById('app-1920');
-    if (!stage || !app) return;
+  // 섹션 관찰
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const section = entry.target;
 
-    // 화면 폭 기준으로만 축소 (세로는 그대로 스크롤)
-    const vw = window.innerWidth;
-    const scale = Math.min(vw / DESIGN_WIDTH, 1); // 1920 이상이면 1(원본), 이하면 축소
+      if (entry.isIntersecting) {
+        // 들어올 때: reflow 대상 재점화, 비디오 자동재생
+        section.querySelectorAll("[data-reflow]").forEach(reflow);
+        section.querySelectorAll("video[data-replay-video][data-autoplay]").forEach(v => {
+          try { v.muted = true; v.play(); } catch(e) {}
+        });
+      } else {
+        // 나갈 때: 지정 클래스 제거 → 기존 트리거가 다시 동작할 수 있게 초기화
+        section.querySelectorAll("[data-reset]").forEach((el) => {
+          const toRemove = (el.getAttribute("data-reset") || "").split(",").map(s => s.trim()).filter(Boolean);
+          toRemove.forEach(cls => el.classList.remove(cls));
+        });
 
-    // 스케일 적용
-    app.style.transform = `scale(${scale})`;
+        // 그래프 같은 케이스: .is-active 제거가 필요하면 위 data-reset으로 처리(예: data-reset="is-active")
+        // 비디오 초기화
+        section.querySelectorAll("video[data-replay-video]").forEach((v) => {
+          v.pause();
+          v.currentTime = 0;
+        });
+      }
+    });
+  }, { threshold: 0.2 });
 
-    // 스케일 후 실제 보이는 높이에 맞춰 stage 높이를 보정
-    // (transform은 레이아웃 박스를 줄이지 않기 때문에 시각 높이에 맞게 조정 필요)
-    const appHeight = app.scrollHeight;        // 원본 콘텐츠 전체 높이(px)
-    stage.style.height = (appHeight * scale) + 'px';
-  }
-
-  // 최초/리사이즈/폰트로드 등 변화에 반응
-  window.addEventListener('load', applyScale);
-  window.addEventListener('resize', applyScale);
-  // 폰트 로드로 높이가 튈 수 있으니 한 번 더
-  document.fonts && document.fonts.ready && document.fonts.ready.then(applyScale);
+  // 페이지의 리플레이 섹션들 등록
+  document.querySelectorAll("[data-replay-scope]").forEach(sec => io.observe(sec));
 })();

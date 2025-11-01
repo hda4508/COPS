@@ -111,6 +111,36 @@
       });
     })();
 
+// 메인 비디오 재생
+document.addEventListener("DOMContentLoaded", () => {
+  const box = document.getElementById("videoBox");
+  const video = document.getElementById("mainVideo");
+
+  if (!box || !video) return;
+
+  // 클릭 시 확대 + 재생 / 축소 + 일시정지
+  box.addEventListener("click", () => {
+    if (!box.classList.contains("expanded")) {
+      box.classList.add("expanded", "playing");
+      video.play();
+      document.body.classList.add("video-expanded"); // top버튼 숨김
+      document.documentElement.style.overflow = "hidden"; // 스크롤 잠금
+    } else {
+      video.pause();
+      box.classList.remove("expanded", "playing");
+      document.body.classList.remove("video-expanded");
+      document.documentElement.style.overflow = ""; // 스크롤 복구
+    }
+  });
+
+  // 영상이 끝나면 자동 축소
+  video.addEventListener("ended", () => {
+    box.classList.remove("expanded", "playing");
+    document.body.classList.remove("video-expanded");
+    document.documentElement.style.overflow = "";
+  });
+});
+
 
 // 첫 번째, 세 번째 카드는 위에서 아래로
 // 두 번째 카드는 아래에서 위로 > css 에서 추가 작성
@@ -194,6 +224,48 @@ document.addEventListener("DOMContentLoaded", () => {
         threshold: 0.3
     });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const scope = document.querySelector(".servey-first[data-replay-scope]");
+  if (!scope) return;
+
+  const graph = scope.querySelector("#graph-1");
+  const list  = scope.querySelector("#graph-1-list");
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+
+      if (el === graph) graph.classList.add("is-active");
+      if (el === list)  list.classList.add("show");
+    });
+  }, { root: null, threshold: 0.3 });
+
+  if (graph) io.observe(graph);
+  if (list)  io.observe(list);
+});
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const scope = document.querySelector(".second-graph-card-list-content[data-replay-scope]");
+  if (!scope) return;
+  const graph = scope.querySelector("#graph-2");
+  const list  = scope.querySelector(".second-graph-card-list");
+
+  const io = new IntersectionObserver((ents) => {
+    ents.forEach(e => {
+      if (!e.isIntersecting) return;
+      if (e.target === graph) graph.classList.add("is-active");
+      if (e.target === list)  list.classList.add("show");
+    });
+  }, { threshold: 0.3 });
+
+  if (graph) io.observe(graph);
+  if (list)  io.observe(list);
+});
+
+
 // -----------------------------------------------------------------------------------
 // Drop Line 1 & Gradient Title 
 // -----------------------------------------------------------------------------------
@@ -270,43 +342,33 @@ document.addEventListener("DOMContentLoaded", () => {
 //  Persona 섹션 
 // -----------------------------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
+  const allTargetLines = document.querySelectorAll(".persona-line");
+  const allTargetBoxes = document.querySelectorAll(".persona-box");
 
-    const allTargetLines = document.querySelectorAll(".persona-line");
-    const allTargetBoxes = document.querySelectorAll(".persona-box");
+  if (allTargetLines.length === 0 || allTargetLines.length !== allTargetBoxes.length) {
+    console.warn("Persona 순차 등장: Line/Box 요소의 개수가 일치하지 않거나 요소를 찾을 수 없습니다.");
+    return;
+  }
 
-    if (allTargetLines.length === 0 || allTargetLines.length !== allTargetBoxes.length) {
-        console.warn("Persona 순차 등장: Line/Box 요소의 개수가 일치하지 않거나 요소를 찾을 수 없습니다.");
-        return;
-    }
+  allTargetLines.forEach((targetLine, index) => {
+    const targetBox = allTargetBoxes[index];
 
-    allTargetLines.forEach((targetLine, index) => {
-        const targetBox = allTargetBoxes[index];
-
-        const observer = new IntersectionObserver(
-            (entries, currentObserver) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        targetLine.classList.add("show-persona");
-
-
-                        setTimeout(() => {
-                            targetBox.classList.add("show-persona");
-                        }, 400);
-
-
-                        currentObserver.unobserve(entry.target);
-                    }
-                });
-            }, {
-
-                rootMargin: '0px 0px -50px 0px',
-                threshold: 0.1
-            }
-        );
-
-        observer.observe(targetLine);
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          targetLine.classList.add("show-persona");
+          setTimeout(() => targetBox.classList.add("show-persona"), 400);
+        }
+      });
+    }, {
+      rootMargin: '0px 0px -50px 0px',
+      threshold: 0.1
     });
+
+    observer.observe(targetLine);
+  });
 });
+
 
 // -----------------------------------------------------------------------------------
 //  Service Box 호버
@@ -779,3 +841,95 @@ document.addEventListener("DOMContentLoaded", () => {
     io2.observe(fontSystem);
   }
 });
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const scope = document.querySelector(".system-box[data-replay-scope]");
+  if (!scope) return;
+
+  const box = scope.querySelector(".line-box");
+  const svgWrap = box?.querySelector(".line-box-line");
+  const imgWrap = box?.querySelector(".line-box-img");
+  const systemText = scope.querySelector(".system-text");
+
+  if (!box || !svgWrap || !imgWrap) return;
+
+  const lines = Array.from(svgWrap.querySelectorAll("line"));
+  const horizontals = [];
+  const verticals = [];
+
+  // 초기 세팅
+  const setupLines = () => {
+    horizontals.length = 0;
+    verticals.length = 0;
+    lines.forEach(line => {
+      const y1 = parseFloat(line.getAttribute("y1"));
+      const y2 = parseFloat(line.getAttribute("y2"));
+      const len = line.getTotalLength();
+      line._len = len;
+      line.style.strokeDasharray = len;
+      line.style.strokeDashoffset = len;
+      if (y1 === y2) horizontals.push(line);
+      else verticals.push(line);
+    });
+  };
+
+  const drawGroup = (arr, dur = 900) =>
+    new Promise(res => {
+      requestAnimationFrame(() => {
+        arr.forEach(l => (l.style.strokeDashoffset = 0));
+        setTimeout(res, dur + 50);
+      });
+    });
+
+  const revealLogo = () =>
+    new Promise(res => {
+      imgWrap.classList.add("show");
+      setTimeout(res, 700);
+    });
+
+  const revealText = () =>
+    new Promise(res => {
+      systemText.classList.add("reveal-in");
+      setTimeout(res, 500);
+    });
+
+  const runSeq = async () => {
+    await drawGroup(horizontals, 900);
+    await drawGroup(verticals, 900);
+    await revealLogo();
+    await revealText();
+  };
+
+  const resetSeq = () => {
+    lines.forEach(l => {
+      const len = l._len || 0;
+      l.style.strokeDasharray = len;
+      l.style.strokeDashoffset = len;
+    });
+    imgWrap.classList.remove("show");
+    systemText.classList.remove("reveal-in");
+  };
+
+  // 초기 상태 설정
+  setupLines();
+  systemText.classList.add("reveal-init");
+
+  // 진입 시 재생 / 이탈 시 리셋
+  const io = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setupLines();
+          runSeq();
+        } else {
+          resetSeq();
+        }
+      });
+    },
+    { threshold: 0.55 }
+  );
+
+  io.observe(scope);
+});
+

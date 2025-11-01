@@ -584,6 +584,80 @@ section {
     min-height: 100vh;
 }
 
+:root {
+    --video-wrap-w: 1255px;
+    --video-top-gap: 196px;
+    --video-title-gap: 70px;
+
+}
+
+#Video {
+    max-width: var(--content-max);
+    width: 100%;
+    margin: 0 auto;
+    padding: 196px var(--content-pad) 0;
+    display: block;
+}
+
+.Video-title {
+    color: #19F8E6;
+    font-family: "Zalando Sans Expanded";
+    font-size: 34px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: -0.68px;
+}
+
+.video-wrap {
+    width: min(var(--video-wrap-w), 100% - 48px);
+    margin: 0 auto;
+}
+
+.video-play {
+    margin-top: 69.97px;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    transition: all .6s ease;
+}
+
+.video-play video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    transition: all .6s ease;
+}
+
+.video-overlay {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: #19F8E6;
+    font-family: "Zalando Sans Expanded", sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    background: rgba(0, 0, 0, .4);
+    padding: 16px 32px;
+    border-radius: 48px;
+    transition: opacity .4s ease;
+    pointer-events: none;
+}
+
+.video-play.playing .video-overlay {
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+
 /* 배경 부분 */
 #Planning {
     background-image: url(../img/Problem.png);
@@ -2044,3 +2118,21 @@ section {
     }
 }
 
+:root { --anim-dur: 800ms; --anim-ease: cubic-bezier(.2,.8,.2,1); }
+
+/* 기본적으로 opt-in 요소만 초기 숨김 */
+[data-animate]:not([data-anim-init="inview"]) {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity var(--anim-dur) var(--anim-ease), transform var(--anim-dur) var(--anim-ease);
+  will-change: opacity, transform;
+}
+[data-animate].is-inview { opacity: 1; transform: translateY(0); }
+
+/* 이미 화면에 보여둬야 하는 요소는 data-anim-init="inview" 붙이면 처음부터 보임 */
+[data-animate][data-anim-init="inview"] { opacity: 1; transform: none; }
+
+.graph .bar .bar-column { height: 0; }
+.graph.is-active .bar .bar-column { height: calc(var(--plot-h) * (var(--val) / 100)); }
+
+.reduced-motion [data-animate],
+.reduced-motion [data-animate].is-inview { transition: none!important; opacity: 1!important; transform: none!important; }
