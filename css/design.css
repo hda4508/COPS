@@ -23,7 +23,7 @@
     max-width: var(--content-max);
     width: 100%;
     margin: 0 auto 0;
-    padding: 350px var(--content-pad) 0;
+    padding: 196px var(--content-pad) 0;
     display: block;
 }
 
@@ -591,6 +591,7 @@
     flex-shrink: 0;
     border-radius: 7px;
     background: #1A1A1A;
+    box-shadow: 0 4px 29.2px 0 rgba(50, 50, 50, 0.20);
 }
 
 /* 선 애니메이션 기존 유지 */
@@ -630,8 +631,8 @@
 #Service {
     max-width: var(--content-max);
     width: 100%;
-    margin: -150px auto 0;
-    padding: 0px var(--content-pad) 0;
+    margin: -300px auto 0;
+    padding: 196px var(--content-pad) 0;
     display: block;
 }
 

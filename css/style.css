@@ -597,7 +597,7 @@ section {
     max-width: var(--content-max);
     width: 100%;
     margin: 0 auto;
-    padding: 350px var(--content-pad) 0;
+    padding: 196px var(--content-pad) 0;
     display: block;
 }
 
@@ -1542,7 +1542,7 @@ section {
 #Goal {
     max-width: var(--content-max);
     width: 100%;
-    margin: 250px auto 0;
+    margin: 250px auto 55px;
     padding: 0px var(--content-pad) 0;
     display: block;
     height: 100%;
