@@ -394,7 +394,7 @@ document.addEventListener("DOMContentLoaded", () => {
 /// Onboarding 부분
 
 document.addEventListener("DOMContentLoaded", () => {
-  const section = document.querySelector("#Service"); // ★ 여기!
+  const section = document.querySelector("#Service");
   if (!section) {
     console.warn("[Onboarding] #Service 섹션을 찾을 수 없습니다.");
     return;
@@ -409,37 +409,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const stepTexts = Array.from(section.querySelectorAll(".onboarding-step .step"));
   const videos = Array.from(section.querySelectorAll(".onboarding-content-sub video"));
 
-  // 재생 속도 매핑
+  // ▶︎ 재생 속도 매핑
   const rateMap = new Map([
     [".onboarding-sub1", 3.0],
     [".onboarding-sub2", 7.0],
     [".onboarding-sub3", 1.7],
   ]);
 
-  // 초기화
-  const initState = () => {
-    stepTexts.forEach(s => s.classList.remove("show"));
-    videos.forEach(v => {
-      v.classList.remove("active", "playing");
-      v.pause();
-      try { v.currentTime = 0; } catch {}
-      v.muted = true;
-      v.setAttribute("muted", "");
-      v.playsInline = true;
-      v.setAttribute("playsinline", "");
-      v.removeAttribute("autoplay");
-      v.preload = "auto"; // 로딩 안정화
-
-      for (const [sel, r] of rateMap) {
-        if (v.matches(sel)) { v.playbackRate = r; break; }
-      }
-    });
-    lineBoxes.forEach(b => { if (b) b.style.width = "0px"; });
-  };
-
-  initState();
-
-  // 내부 스타일 보장
+  // ▶︎ 내부 스타일(안전)
   (function ensureLineCSS() {
     const css = `
       .onboarding-line1,.onboarding-line2,.onboarding-line3{
@@ -449,6 +426,9 @@ document.addEventListener("DOMContentLoaded", () => {
       .onboarding-line1 svg,.onboarding-line2 svg,.onboarding-line3 svg{
         display:block;width:100%;height:2px;
       }
+      /* step 텍스트 페이드인 기본값이 없다면 예시 */
+      .onboarding-step .step{opacity:0;transform:translateY(8px);transition:.42s ease}
+      .onboarding-step .step.show{opacity:1;transform:none}
     `;
     if (!document.querySelector('style[data-onboarding-style]')) {
       const tag = document.createElement("style");
@@ -458,6 +438,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   })();
 
+  // ▶︎ 상태 초기화
+  const initState = () => {
+    stepTexts.forEach(s => s.classList.remove("show"));
+    videos.forEach(v => {
+      v.classList.remove("active", "playing");
+      try { v.pause(); } catch {}
+      try { v.currentTime = 0; } catch {}
+      v.muted = true;
+      v.setAttribute("muted", "");
+      v.playsInline = true;
+      v.setAttribute("playsinline", "");
+      v.setAttribute("autoplay", ""); // iOS 친화
+      v.preload = "auto";
+      for (const [sel, r] of rateMap) {
+        if (v.matches(sel)) { v.playbackRate = r; break; }
+      }
+    });
+    lineBoxes.forEach(b => { if (b) b.style.width = "0px"; });
+  };
+  initState();
+
+  // ▶︎ 라인 타깃 폭 계산(반응형 대응)
   const getTargetWidth = (box) => {
     const dw = parseFloat(box?.dataset?.width);
     if (!Number.isNaN(dw) && dw > 0) return dw;
@@ -469,9 +471,37 @@ document.addEventListener("DOMContentLoaded", () => {
       const p = vb.split(/\s+/).map(Number);
       if (p.length === 4 && p[2] > 0) return p[2];
     }
+    // 마지막 폴백: 실제 레이아웃 폭
     return Math.max(0, Math.round(box?.scrollWidth || 0));
   };
-  const targetWidths = lineBoxes.map(getTargetWidth);
+
+  let targetWidths = [];
+  const measureTargets = () => {
+    targetWidths = lineBoxes.map(getTargetWidth);
+  };
+  measureTargets();
+
+  // 폰트 로드/리사이즈/회전 시 재측정
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(measureTargets);
+  }
+  window.addEventListener("resize", debounce(() => {
+    const before = targetWidths.join(",");
+    measureTargets();
+    if (targetWidths.join(",") !== before && !running) {
+      // 사이즈 바뀌었으면 라인 리셋
+      lineBoxes.forEach(b => { if (b) b.style.width = "0px"; });
+    }
+  }, 120));
+  window.addEventListener("orientationchange", () => setTimeout(() => {
+    measureTargets();
+    lineBoxes.forEach(b => { if (b) b.style.width = "0px"; });
+  }, 150));
+
+  // ▶︎ 유틸
+  function debounce(fn, wait){
+    let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), wait); };
+  }
 
   const drawLine = (i) => new Promise(res => {
     const box = lineBoxes[i], w = targetWidths[i];
@@ -489,14 +519,21 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(res, 420);
   });
 
-  // ▶︎ 비디오 재생
+  // ▶︎ 안전한 비디오 재생
   const playVideo = (i) => new Promise(async (res) => {
     const v = videos[i];
     if (!v) return res();
 
     v.classList.add("active");
 
-    // 로딩 보장
+    // 메타데이터 대기(길이 확보)
+    if (v.readyState < 1) {
+      await new Promise(r => {
+        const onMeta = () => { v.removeEventListener("loadedmetadata", onMeta); r(); };
+        v.addEventListener("loadedmetadata", onMeta);
+        setTimeout(() => { v.removeEventListener("loadedmetadata", onMeta); r(); }, 1500);
+      });
+    }
     if (v.readyState < 2) {
       await new Promise(r => {
         const onReady = () => { v.removeEventListener("loadeddata", onReady); r(); };
@@ -505,28 +542,31 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
+    // 속도 재확인
     for (const [sel, r] of rateMap) {
       if (v.matches(sel)) { v.playbackRate = r; break; }
     }
 
-    v.currentTime = 0;
+    try { v.currentTime = 0; } catch {}
     v.classList.add("playing");
 
     const tryPlay = () => v.play();
 
-    let endedResolve;
+    let endedListener;
     const endedP = new Promise(r => {
-      endedResolve = r;
-      v.addEventListener("ended", () => {
+      endedListener = () => {
         v.classList.remove("playing");
         r("ended");
-      }, { once: true });
+      };
+      v.addEventListener("ended", endedListener, { once: true });
     });
 
-    const estMs = Math.max(500, Math.floor(((v.duration || 4) / (v.playbackRate || 1)) * 1000) + 300);
-    const timeoutP = new Promise(r => setTimeout(() => r("timeout"), estMs));
+    // duration이 없는 경우를 대비해 보수적으로 넉넉한 타임아웃
+    const expected = (v.duration && isFinite(v.duration)) ? (v.duration / (v.playbackRate || 1)) : 6;
+    const timeoutMs = Math.max(1200, Math.floor(expected * 1000) + 400);
+    const timeoutP = new Promise(r => setTimeout(() => r("timeout"), timeoutMs));
 
-    // 섹션 내부 클릭 킥
+    // 사용자 제스처 킥(모바일/사파리 대비)
     let kicked = false;
     const kick = (e) => {
       if (!section.contains(e.target)) return;
@@ -538,14 +578,22 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     section.addEventListener("click", kick, true);
 
-    try { await tryPlay(); } catch { /* 클릭 대기 */ }
+    // 1차 자동재생 시도
+    let autoTried = false;
+    try {
+      autoTried = true;
+      await tryPlay();
+    } catch {
+      // 실패 시 클릭 킥 대기
+    }
 
     const result = await Promise.race([endedP, timeoutP]);
 
     section.removeEventListener("click", kick, true);
-    if (result === "timeout") {
+    if (result === "timeout" && endedListener) {
+      // 재생이 묵살된 케이스면 클래스만 정리
       v.classList.remove("playing");
-      v.removeEventListener("ended", endedResolve);
+      v.removeEventListener("ended", endedListener);
     }
     res();
   });
@@ -563,43 +611,49 @@ document.addEventListener("DOMContentLoaded", () => {
     if (running || finished) return;
     running = true;
     try {
-      await drawLine(0);
-      await revealStep(0);
-      await playVideo(0);
-
-      await drawLine(1);
-      await revealStep(1);
-      await playVideo(1);
-
-      await drawLine(2);
-      await revealStep(2);
-      await playVideo(2);
-
+      await drawLine(0); await revealStep(0); await playVideo(0);
+      await drawLine(1); await revealStep(1); await playVideo(1);
+      await drawLine(2); await revealStep(2); await playVideo(2);
       finished = true;
-    } finally {
-      running = false;
-    }
+    } finally { running = false; }
   };
 
-  // Service 섹션이 보이면 시작, 벗어나면 리셋
-  const io = new IntersectionObserver((entries) => {
+  // ▶︎ “반응형” 트리거: 뷰포트 비율 기반 rootMargin
+  const getIOOptions = () => {
+    const vm = Math.round(window.innerHeight * 0.25); // 상/하 25% 버퍼
+    return {
+      root: null,
+      threshold: 0.2,
+      rootMargin: `-${vm}px 0px -${vm}px 0px`,
+    };
+  };
+
+  let io = new IntersectionObserver(handleIO, getIOOptions());
+  function handleIO(entries){
     entries.forEach(e => {
       if (e.target !== section) return;
-      if (e.isIntersecting) {
-        run();
-      } else {
-        resetAll();
-      }
+      if (e.isIntersecting) run();
+      else resetAll();
     });
-  }, {
-    threshold: 0.55,
-    rootMargin: "0px 0px -10% 0px"
-  });
-
+  }
   io.observe(section);
+
+  // 리사이즈 시 IO도 갱신(노트북/울트라와이드 전환 대응)
+  window.addEventListener("resize", debounce(() => {
+    const newOpts = getIOOptions();
+    io.disconnect();
+    io = new IntersectionObserver(handleIO, newOpts);
+    io.observe(section);
+  }, 150));
+
+  // 탭 비가시성 전환 안정화
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible" && !finished) {
+      // 다시 보이면 재시도
+      run();
+    }
+  });
 });
-
-
 
 
 // Design system 부분
