@@ -382,7 +382,7 @@ header, .nav {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 70px;
+    border-radius: 83px;
 }
 
 .solution-box {
@@ -555,7 +555,7 @@ header, .nav {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 70px;
+    border-radius: 80px;
 }
 
 :root {
@@ -671,7 +671,7 @@ header, .nav {
     width: 477.06px;
     height: 990px;
     object-fit: cover;
-    border-radius: 65px;
+    border-radius: 75px;
 }
 
 .solution5 {
