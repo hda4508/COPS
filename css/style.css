@@ -577,11 +577,15 @@ a {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    cursor: default;
+    cursor: url("../img/cursor.png") 4 4, auto;
 }
 
 /* 호버/포커스 */
 .cops-top-btn:hover {
     filter: brightness(1.05);
+    cursor: default;
+    cursor: url("../img/cursor.png") 4 4, auto;
 }
 
 .cops-top-btn:active {
@@ -958,7 +962,6 @@ section {
     transform: translateY(0);
 }
 
-/* 수연이 인터렉션 추가 끝*/
 
 
 .gradient-title {
@@ -1713,8 +1716,6 @@ section {
     margin: 40px 29px 49px;
 }
 
-/* 수연 */
-/* ----------------------------------------------------------------------------------- */
 .service-box {
     width: 465px;
     height: 429px;
@@ -1807,8 +1808,6 @@ section {
     opacity: 0.3;
     transition: opacity 0.4s ease-in-out;
 }
-
-/* 수연 끝 */
 
 
 .ser-box-num {
