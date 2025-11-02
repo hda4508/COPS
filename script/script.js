@@ -392,42 +392,54 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /// Onboarding 부분
+
 document.addEventListener("DOMContentLoaded", () => {
-  const section = document.querySelector("#Service");
-  if (!section) return;
+  const section = document.querySelector("#Service"); // ★ 여기!
+  if (!section) {
+    console.warn("[Onboarding] #Service 섹션을 찾을 수 없습니다.");
+    return;
+  }
 
   const lineBoxes = [
-    document.querySelector(".onboarding-line1"),
-    document.querySelector(".onboarding-line2"),
-    document.querySelector(".onboarding-line3"),
+    section.querySelector(".onboarding-line1"),
+    section.querySelector(".onboarding-line2"),
+    section.querySelector(".onboarding-line3"),
   ].filter(Boolean);
 
-  const stepTexts = Array.from(document.querySelectorAll(".onboarding-step .step"));
-  const videos = Array.from(document.querySelectorAll(".onboarding-content-sub video"));
+  const stepTexts = Array.from(section.querySelectorAll(".onboarding-step .step"));
+  const videos = Array.from(section.querySelectorAll(".onboarding-content-sub video"));
 
-  const sub1 = document.querySelector(".onboarding-sub1");
-  const sub2 = document.querySelector(".onboarding-sub2");
-  const sub3 = document.querySelector(".onboarding-sub3");
-  if (sub1) sub1.playbackRate = 1.5;
-  if (sub2) sub2.playbackRate = 2.0;
-  if (sub3) sub3.playbackRate = 1.7;
+  // 재생 속도 매핑
+  const rateMap = new Map([
+    [".onboarding-sub1", 3.0],
+    [".onboarding-sub2", 7.0],
+    [".onboarding-sub3", 1.7],
+  ]);
 
-  stepTexts.forEach(s => s.classList.remove("show"));
-  videos.forEach(v => {
-    v.classList.remove("active", "playing");
-    v.muted = true;
-    v.setAttribute("muted", "");
-    v.playsInline = true;
-    v.setAttribute("playsinline", "");
+  // 초기화
+  const initState = () => {
+    stepTexts.forEach(s => s.classList.remove("show"));
+    videos.forEach(v => {
+      v.classList.remove("active", "playing");
+      v.pause();
+      try { v.currentTime = 0; } catch {}
+      v.muted = true;
+      v.setAttribute("muted", "");
+      v.playsInline = true;
+      v.setAttribute("playsinline", "");
+      v.removeAttribute("autoplay");
+      v.preload = "auto"; // 로딩 안정화
 
-    v.autoplay = false;
-    v.removeAttribute("autoplay");
-    v.preload = "auto";
-    v.setAttribute("preload", "auto");
-    v.pause();
-    v.currentTime = 0;
-  });
+      for (const [sel, r] of rateMap) {
+        if (v.matches(sel)) { v.playbackRate = r; break; }
+      }
+    });
+    lineBoxes.forEach(b => { if (b) b.style.width = "0px"; });
+  };
 
+  initState();
+
+  // 내부 스타일 보장
   (function ensureLineCSS() {
     const css = `
       .onboarding-line1,.onboarding-line2,.onboarding-line3{
@@ -470,10 +482,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  const resetLines = () => {
-    lineBoxes.forEach(b => { if (b) b.style.width = "0px"; });
-  };
-
   const revealStep = (i) => new Promise(res => {
     const s = stepTexts[i];
     if (!s) return res();
@@ -481,52 +489,79 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(res, 420);
   });
 
-  const hideAllSteps = () => stepTexts.forEach(s => s.classList.remove("show"));
-
+  // ▶︎ 비디오 재생
   const playVideo = (i) => new Promise(async (res) => {
     const v = videos[i];
     if (!v) return res();
 
-    try {
-      if (v.readyState < 2) {
-        await new Promise(r => v.addEventListener("loadeddata", r, { once: true }));
-      }
-      v.currentTime = 0;
-      v.classList.add("active", "playing");
-      await v.play();
+    v.classList.add("active");
 
-      v.addEventListener("ended", () => res(), { once: true });
-
-      const estDuration = (v.duration || 3) / (v.playbackRate || 1) * 1000;
-      setTimeout(res, estDuration + 300);
-    } catch {
-
-      const kick = () => {
-        v.classList.add("active", "playing");
-        v.play().finally(() => section.removeEventListener("click", kick));
-      };
-      section.addEventListener("click", kick, { once: true });
+    // 로딩 보장
+    if (v.readyState < 2) {
+      await new Promise(r => {
+        const onReady = () => { v.removeEventListener("loadeddata", onReady); r(); };
+        v.addEventListener("loadeddata", onReady);
+        setTimeout(() => { v.removeEventListener("loadeddata", onReady); r(); }, 1500);
+      });
     }
+
+    for (const [sel, r] of rateMap) {
+      if (v.matches(sel)) { v.playbackRate = r; break; }
+    }
+
+    v.currentTime = 0;
+    v.classList.add("playing");
+
+    const tryPlay = () => v.play();
+
+    let endedResolve;
+    const endedP = new Promise(r => {
+      endedResolve = r;
+      v.addEventListener("ended", () => {
+        v.classList.remove("playing");
+        r("ended");
+      }, { once: true });
+    });
+
+    const estMs = Math.max(500, Math.floor(((v.duration || 4) / (v.playbackRate || 1)) * 1000) + 300);
+    const timeoutP = new Promise(r => setTimeout(() => r("timeout"), estMs));
+
+    // 섹션 내부 클릭 킥
+    let kicked = false;
+    const kick = (e) => {
+      if (!section.contains(e.target)) return;
+      if (kicked) return;
+      kicked = true;
+      tryPlay().catch(()=>{}).finally(() => {
+        section.removeEventListener("click", kick, true);
+      });
+    };
+    section.addEventListener("click", kick, true);
+
+    try { await tryPlay(); } catch { /* 클릭 대기 */ }
+
+    const result = await Promise.race([endedP, timeoutP]);
+
+    section.removeEventListener("click", kick, true);
+    if (result === "timeout") {
+      v.classList.remove("playing");
+      v.removeEventListener("ended", endedResolve);
+    }
+    res();
   });
 
-  const pauseAll = () => {
-    videos.forEach(v => { v.pause(); v.classList.remove("playing"); });
-  };
+  let running = false;
+  let finished = false;
 
   const resetAll = () => {
-    pauseAll();
-    videos.forEach(v => { v.currentTime = 0; v.classList.remove("active"); });
-    hideAllSteps();
-    resetLines();
-    state = "idle";
+    running = false;
+    finished = false;
+    initState();
   };
 
-  let state = "idle";
-  let runningPromise = null;
-
   const run = async () => {
-    if (state === "running") return;
-    state = "running";
+    if (running || finished) return;
+    running = true;
     try {
       await drawLine(0);
       await revealStep(0);
@@ -540,39 +575,30 @@ document.addEventListener("DOMContentLoaded", () => {
       await revealStep(2);
       await playVideo(2);
 
-      state = "done";
-    } catch {
-      state = "idle";
+      finished = true;
+    } finally {
+      running = false;
     }
   };
 
+  // Service 섹션이 보이면 시작, 벗어나면 리셋
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      const ratio = e.intersectionRatio;
-      if (e.isIntersecting && ratio >= 0.6) {
-        if (state === "idle" || state === "paused") run();
+      if (e.target !== section) return;
+      if (e.isIntersecting) {
+        run();
       } else {
-        if (state === "running") {
-          state = "paused";
-          pauseAll();
-        }
-        if (ratio <= 0.2) {
-          resetAll();
-        }
+        resetAll();
       }
     });
   }, {
-    threshold: [0, 0.2, 0.6, 0.9],
-    rootMargin: "0px 0px -15% 0px"
+    threshold: 0.55,
+    rootMargin: "0px 0px -10% 0px"
   });
 
   io.observe(section);
-
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) pauseAll();
-  }, { passive: true });
-
 });
+
 
 
 

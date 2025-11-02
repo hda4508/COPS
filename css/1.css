@@ -548,7 +548,7 @@ header, .nav {
     margin-left: 822.11px;
     z-index: 0;
     width: 496px;
-    height: 1012px;
+    height: 1020px;
 }
 
 .communication-image video {
@@ -559,8 +559,8 @@ header, .nav {
 }
 
 :root {
-    --ekg-color: #19F8E6;
-    --ekg-path-length: 1;
+    --ekg-color: #19f8e69f;
+    --ekg-path-length: 0.2;
 }
 
 
@@ -568,7 +568,7 @@ header, .nav {
     width: 2145px;
     height: 100vh;
     position: absolute;
-    bottom: 45px;
+    bottom: 30px;
     left: 1055px;
     transform: translateX(-50%);
     overflow: hidden;
@@ -590,13 +590,13 @@ header, .nav {
 .ekg-animated-svg {
 
     position: absolute;
-    top: 0;
+    top: 130px;
     left: 0;
 }
 
 
 .ekg-base-svg path {
-
+    stroke-width: 2px;   
     stroke-linecap: round;
     stroke-linejoin: round;
 }
@@ -607,7 +607,7 @@ header, .nav {
     stroke: var(--ekg-color);
     stroke-linecap: round;
     stroke-linejoin: round;
-
+    stroke-width: 2px;
 
     stroke-dasharray: var(--ekg-path-length);
     stroke-dashoffset: var(--ekg-path-length);
@@ -669,7 +669,7 @@ header, .nav {
 
 .post-report-image video {
     width: 477.06px;
-    height: 972.85px;
+    height: 990px;
     object-fit: cover;
     border-radius: 65px;
 }
@@ -754,11 +754,11 @@ header, .nav {
 
 /* -----------------------------------------------수연이5------------------------------------ */
 
-#Wearable-device-guidance {
+#Device {
     max-width: var(--content-max);
     width: 100%;
-    margin: 250px auto 0;
-    padding: 0px var(--content-pad) 0;
+    margin: 55px auto 0;
+    padding: 195px var(--content-pad) 0;
     display: block;
 
     position: relative;
@@ -788,7 +788,7 @@ header, .nav {
 
 .wearable-device-image video {
     width: 424.53px;
-    height: 475.83px;
+    height: 480.83px;
     object-fit: cover;
     border-radius: 70px;
 
@@ -797,7 +797,7 @@ header, .nav {
 }
 
 .wearable-device-image:hover video {
-    filter: brightness(0.7) blur(2px);
+    filter:  blur(5px);
     transform: scale(0.98);
 }
 
