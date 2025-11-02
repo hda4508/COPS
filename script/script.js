@@ -391,7 +391,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// Onboarding 부분
+/// Onboarding 부분
 document.addEventListener("DOMContentLoaded", () => {
   const section = document.querySelector("#Service");
   if (!section) return;
@@ -419,10 +419,13 @@ document.addEventListener("DOMContentLoaded", () => {
     v.setAttribute("muted", "");
     v.playsInline = true;
     v.setAttribute("playsinline", "");
-    v.autoplay = true;
-    v.setAttribute("autoplay", "");
+
+    v.autoplay = false;
+    v.removeAttribute("autoplay");
     v.preload = "auto";
     v.setAttribute("preload", "auto");
+    v.pause();
+    v.currentTime = 0;
   });
 
   (function ensureLineCSS() {
@@ -459,8 +462,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const targetWidths = lineBoxes.map(getTargetWidth);
 
   const drawLine = (i) => new Promise(res => {
-    const box = lineBoxes[i],
-      w = targetWidths[i];
+    const box = lineBoxes[i], w = targetWidths[i];
     if (!box || !w) return res();
     requestAnimationFrame(() => {
       box.style.width = w + "px";
@@ -468,12 +470,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  const resetLines = () => {
+    lineBoxes.forEach(b => { if (b) b.style.width = "0px"; });
+  };
+
   const revealStep = (i) => new Promise(res => {
     const s = stepTexts[i];
     if (!s) return res();
     s.classList.add("show");
     setTimeout(res, 420);
   });
+
+  const hideAllSteps = () => stepTexts.forEach(s => s.classList.remove("show"));
 
   const playVideo = (i) => new Promise(async (res) => {
     const v = videos[i];
@@ -483,57 +491,89 @@ document.addEventListener("DOMContentLoaded", () => {
       if (v.readyState < 2) {
         await new Promise(r => v.addEventListener("loadeddata", r, { once: true }));
       }
-
       v.currentTime = 0;
       v.classList.add("active", "playing");
-
-      if (v.classList.contains("onboarding-sub1")) v.playbackRate = 1.5;
-      if (v.classList.contains("onboarding-sub2")) v.playbackRate = 2.0;
-      if (v.classList.contains("onboarding-sub3")) v.playbackRate = 1.7;
-
       await v.play();
 
       v.addEventListener("ended", () => res(), { once: true });
 
-      const estDuration = (v.duration || 3) / v.playbackRate * 1000;
+      const estDuration = (v.duration || 3) / (v.playbackRate || 1) * 1000;
       setTimeout(res, estDuration + 300);
     } catch {
+
       const kick = () => {
         v.classList.add("active", "playing");
-        v.play().finally(() => window.removeEventListener("click", kick));
+        v.play().finally(() => section.removeEventListener("click", kick));
       };
-      window.addEventListener("click", kick, { once: true });
+      section.addEventListener("click", kick, { once: true });
     }
   });
 
-  let hasRun = false;
-  const run = async () => {
-    if (hasRun) return;
-    hasRun = true;
-    await drawLine(0);
-    await revealStep(0);
-    await playVideo(0);
-    await drawLine(1);
-    await revealStep(1);
-    await playVideo(1);
-    await drawLine(2);
-    await revealStep(2);
-    await playVideo(2);
+  const pauseAll = () => {
+    videos.forEach(v => { v.pause(); v.classList.remove("playing"); });
   };
 
-  const io = new IntersectionObserver((entries, obs) => {
+  const resetAll = () => {
+    pauseAll();
+    videos.forEach(v => { v.currentTime = 0; v.classList.remove("active"); });
+    hideAllSteps();
+    resetLines();
+    state = "idle";
+  };
+
+  let state = "idle";
+  let runningPromise = null;
+
+  const run = async () => {
+    if (state === "running") return;
+    state = "running";
+    try {
+      await drawLine(0);
+      await revealStep(0);
+      await playVideo(0);
+
+      await drawLine(1);
+      await revealStep(1);
+      await playVideo(1);
+
+      await drawLine(2);
+      await revealStep(2);
+      await playVideo(2);
+
+      state = "done";
+    } catch {
+      state = "idle";
+    }
+  };
+
+  const io = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      if (e.isIntersecting) {
-        run();
-        obs.unobserve(e.target);
+      const ratio = e.intersectionRatio;
+      if (e.isIntersecting && ratio >= 0.6) {
+        if (state === "idle" || state === "paused") run();
+      } else {
+        if (state === "running") {
+          state = "paused";
+          pauseAll();
+        }
+        if (ratio <= 0.2) {
+          resetAll();
+        }
       }
     });
-  }, { threshold: 0.7 });
+  }, {
+    threshold: [0, 0.2, 0.6, 0.9],
+    rootMargin: "0px 0px -15% 0px"
+  });
 
   io.observe(section);
 
-  window.addEventListener("click", () => run(), { once: true });
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) pauseAll();
+  }, { passive: true });
+
 });
+
 
 
 // Design system 부분

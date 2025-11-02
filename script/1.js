@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     const animatedPath = document.querySelector('.ekg-highlight-line');
-    
+
     if (animatedPath) {
         const pathLength = animatedPath.getTotalLength();
-        
+
         document.documentElement.style.setProperty('--ekg-path-length', pathLength);
-        console.log("EKG Path Length set to:", pathLength); 
+        console.log("EKG Path Length set to:", pathLength);
     }
 });
 
@@ -26,13 +26,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (entry.isIntersecting) {
                     entry.target.classList.add("is-active");
-                    
-                    observer.unobserve(entry.target); 
+
+                    observer.unobserve(entry.target);
                 }
             });
-        }, 
-        {
-            threshold: 0.5 
+        }, {
+            threshold: 0.5
         }
     );
 
@@ -40,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
     observer.observe(targetImage);
 });
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 
     const solution5Box = document.querySelector(".solution5-box");
 
@@ -54,13 +53,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 if (entry.isIntersecting) {
                     entry.target.classList.add("is-visible");
-                    
+
                     observer.unobserve(entry.target);
                 }
             });
-        }, 
-        {
-            threshold: 0.4 
+        }, {
+            threshold: 0.4
         }
     );
 
@@ -68,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 
     const citizen1s = document.querySelector(".citizen-1s");
 
@@ -78,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     const images = citizen1s.querySelectorAll("img");
-    
+
 
     const observer = new IntersectionObserver(
         (entries, observer) => {
@@ -89,17 +87,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
                         setTimeout(() => {
                             img.classList.add("is-animated");
-                        }, index * 200); 
+                        }, index * 200);
                     });
-                    
+
 
                     observer.unobserve(entry.target);
                 }
             });
-        }, 
-        {
+        }, {
 
-            threshold: 0.1 
+            threshold: 0.1
         }
     );
 

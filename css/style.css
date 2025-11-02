@@ -1398,14 +1398,16 @@ section {
 
 .insight-content {
     font-family: "Pretendard", sans-serif;
-    font-size: 35px;
+    font-size: 40px;
     font-weight: 600;
     color: #f1f1f1;
     margin-top: 31px;
     line-height: 50px;
-    display: flex;
-    justify-content: center;
     text-align: center;
+}
+
+.key-title {
+    color: #19F8E6;
 }
 
 /* 인사이트 배경 */
@@ -2118,21 +2120,41 @@ section {
     }
 }
 
-:root { --anim-dur: 800ms; --anim-ease: cubic-bezier(.2,.8,.2,1); }
+:root {
+    --anim-dur: 800ms;
+    --anim-ease: cubic-bezier(.2, .8, .2, 1);
+}
 
 /* 기본적으로 opt-in 요소만 초기 숨김 */
 [data-animate]:not([data-anim-init="inview"]) {
-  opacity: 0; transform: translateY(20px);
-  transition: opacity var(--anim-dur) var(--anim-ease), transform var(--anim-dur) var(--anim-ease);
-  will-change: opacity, transform;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity var(--anim-dur) var(--anim-ease), transform var(--anim-dur) var(--anim-ease);
+    will-change: opacity, transform;
 }
-[data-animate].is-inview { opacity: 1; transform: translateY(0); }
+
+[data-animate].is-inview {
+    opacity: 1;
+    transform: translateY(0);
+}
 
 /* 이미 화면에 보여둬야 하는 요소는 data-anim-init="inview" 붙이면 처음부터 보임 */
-[data-animate][data-anim-init="inview"] { opacity: 1; transform: none; }
+[data-animate][data-anim-init="inview"] {
+    opacity: 1;
+    transform: none;
+}
 
-.graph .bar .bar-column { height: 0; }
-.graph.is-active .bar .bar-column { height: calc(var(--plot-h) * (var(--val) / 100)); }
+.graph .bar .bar-column {
+    height: 0;
+}
+
+.graph.is-active .bar .bar-column {
+    height: calc(var(--plot-h) * (var(--val) / 100));
+}
 
 .reduced-motion [data-animate],
-.reduced-motion [data-animate].is-inview { transition: none!important; opacity: 1!important; transform: none!important; }
+.reduced-motion [data-animate].is-inview {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+}
