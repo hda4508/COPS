@@ -29,6 +29,12 @@ body {
     scroll-behavior: smooth;
 }
 
+header,
+nav {
+    position: fixed !important;
+    z-index: 99999 !important;
+}
+
 body {
     background-color: #1a1a1a;
 }
@@ -420,11 +426,10 @@ header {
     transform: translateX(-50%);
     width: 100%;
     max-width: 1920px;
-    z-index: 1000;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 100;
+    z-index: 99999;
 }
 
 .nav {
@@ -452,6 +457,72 @@ header {
     display: flex;
     gap: 85px;
 }
+
+/* 1) 헤더/네비는 전역 최상단 */
+header {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 1920px;
+    z-index: 99999;
+    /* 최상단 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header .nav {
+    pointer-events: auto;
+}
+
+/* 2) 솔루션5 묶음: 같은 쌓임 맥락 안에서 정렬 */
+.solution5 {
+    position: relative;
+    /* 자식들의 z-index 기준 */
+    display: flex;
+    align-items: flex-start;
+    gap: 130.55px;
+    z-index: 0;
+    /* 헤더보다 아래 */
+}
+
+/* 3) 폰(영상) 레이어를 리포트 박스보다 위로 */
+.post-report-wrapper {
+    position: relative;
+    z-index: 2;
+    /* 폰이 더 위 */
+}
+
+.post-report-image {
+    position: relative;
+    z-index: 2;
+}
+
+.post-report-image video {
+    position: relative;
+    z-index: 2;
+    /* 박스(1)보다 위 */
+}
+
+/* 4) 리포트 박스는 폰 뒤로 */
+.solution5-box {
+    position: relative;
+    z-index: 1;
+    /* 폰(2)보다 아래 */
+    /* 겹치게 보이고 싶으면 살짝 끼워 넣기 */
+    margin-left: -80px;
+    /* 필요시 값 조절해서 폰 아래로 파고들게 */
+}
+
+/* 박스 자체 z-index 올리는 규칙이 있으면 제거/아래로 통일 */
+.post-report-box {
+    position: relative;
+    z-index: 1;
+    /* 폰보다 낮게 유지 */
+}
+
 
 a {
     color: #19F8E6;
