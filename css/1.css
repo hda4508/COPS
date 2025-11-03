@@ -658,7 +658,7 @@ header,
     object-fit: cover;
     border-radius: 75px;
     position: relative;
- 
+
 }
 
 .solution5 {
@@ -932,6 +932,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    right: 0;
 }
 
 
@@ -983,12 +984,17 @@ body {
     line-height: 30px;
 
     height: 49px;
+    right: 0;
 
     align-self: flex-end;
     margin-top: 181px;
 
     cursor: default;
     cursor: url("../img/cursor.png") 4 4, auto;
+}
+
+.download {
+    margin-left: auto;
 }
 
 .copyright-info {
