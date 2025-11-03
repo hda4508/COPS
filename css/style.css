@@ -674,13 +674,12 @@ section {
 
 .video-wrap {
     width: min(var(--video-wrap-w), 100% - 48px);
-    margin: 0 auto;
 }
 
 .video-play {
     margin-top: 69.97px;
     position: relative;
-    width: 100%;
+    width: 1440px;
     aspect-ratio: 16 / 9;
     background: #000;
     display: flex;
