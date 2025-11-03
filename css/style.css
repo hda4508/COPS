@@ -1875,11 +1875,6 @@ section {
     margin-top: 21px;
 }
 
-#Device-img {
-    margin-top: 350.03px;
-    flex-shrink: 0;
-}
-
 /* ====== Responsive Add-ons (append below) ====== */
 
 /* 1600 ↓ : 패딩/글자 살짝 줄이기, 고정폭 이미지 해제 */
@@ -2196,7 +2191,6 @@ section {
     transform: translateY(0);
 }
 
-/* 이미 화면에 보여둬야 하는 요소는 data-anim-init="inview" 붙이면 처음부터 보임 */
 [data-animate][data-anim-init="inview"] {
     opacity: 1;
     transform: none;
@@ -2215,4 +2209,57 @@ section {
     transition: none !important;
     opacity: 1 !important;
     transform: none !important;
+}
+
+#Device-img {
+    margin-top: 350.03px;
+    position: relative;
+    width: 100%;
+    display: inline-block;
+}
+
+#Device-img img {
+    width: 100%;
+    display: block;
+}
+
+.source {
+    position: absolute;
+    bottom: 25px;
+    left: 93px;
+    z-index: 2;
+}
+
+.source-btn {
+    background: #1A1A1A;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 65px;
+    height: 25px;
+}
+
+.source-text {
+    color: #19F8E6;
+    text-align: center;
+    font-family: "Pretendard", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%;
+    letter-spacing: -0.28px;
+}
+
+.source-url {
+    position: absolute;
+    bottom: 40px;
+    color: #fff;
+    border-radius: 10px;
+    font-size: 14px;
+    display: none;
+}
+
+.source-url.show {
+    display: block;
 }

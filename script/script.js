@@ -810,3 +810,12 @@ document.addEventListener("DOMContentLoaded", () => {
     io.observe(fontSystem);
   });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const btn = document.querySelector("#source-btn .source-btn");
+    const urlBox = document.querySelector("#source-url");
+
+    btn.addEventListener("click", () => {
+      urlBox.classList.toggle("show"); 
+    });
+  });
