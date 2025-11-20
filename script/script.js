@@ -148,39 +148,44 @@
 })();
 
 /* =========================================================================
-   메인 비디오 클릭 확대/축소
+   메인 비디오 클릭 → 풀스크린 재생
    =======================================================================*/
 document.addEventListener("DOMContentLoaded", () => {
   const box = document.getElementById("videoBox");
   const video = document.getElementById("mainVideo");
   if (!box || !video) return;
 
-  box.addEventListener("click", () => {
-    if (!box.classList.contains("expanded")) {
-      box.classList.add("expanded", "playing");
-      video.play();
-      document.body.classList.add("video-expanded");
-      document.documentElement.style.overflow = "hidden";
-    } else {
-      video.pause();
-      box.classList.remove("expanded", "playing");
-      document.body.classList.remove("video-expanded");
-      document.documentElement.style.overflow = "";
+  const openFullscreen = () => {
+    if (video.requestFullscreen) {
+      video.requestFullscreen();
+    } else if (video.webkitRequestFullscreen) {
+      video.webkitRequestFullscreen();
+    } else if (video.msRequestFullscreen) {
+      video.msRequestFullscreen();
     }
-  });
 
+    video.play();
+  };
+
+  const closeFullscreen = () => {
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    }
+  };
+
+  // 클릭하면 풀스크린 실행
+  box.addEventListener("click", openFullscreen);
+  video.addEventListener("click", openFullscreen);
+
+  // 영상 끝나면 풀스크린 종료
   video.addEventListener("ended", () => {
-    box.classList.remove("expanded", "playing");
-    document.body.classList.remove("video-expanded");
-    document.documentElement.style.overflow = "";
+    closeFullscreen();
   });
 
-  // reinit: 초기상태로
-  document.addEventListener('app:reinit', () => {
+  // reinit (초기화)
+  document.addEventListener("app:reinit", () => {
     try { video.pause(); video.currentTime = 0; } catch {}
-    box.classList.remove("expanded", "playing");
-    document.body.classList.remove("video-expanded");
-    document.documentElement.style.overflow = "";
+    closeFullscreen();
   });
 });
 

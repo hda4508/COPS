@@ -559,7 +559,6 @@ header,
     width: 2145px;
     height: 100vh;
     position: absolute;
-    bottom: 30px;
     left: 1055px;
     transform: translateX(-50%);
     overflow: hidden;
@@ -574,6 +573,36 @@ header,
     width: 2700px;
     height: auto;
 }
+
+
+/* ===========================================
+   2560 x 1440 이상에서만 EKG 라인 확장
+   =========================================== */
+@media (min-width: 2400px) {
+
+  .ekg-monitor-frame {
+      width: 100vw;
+      height: 100vh;
+      left: 50%;
+      transform: translateX(-50%);
+      overflow: hidden;
+  }
+
+  /* SVG 형태일 때 */
+  .ekg-monitor-frame svg {
+      width: 100%;       /* 화면보다 크게 = 여백 0 */
+      height: auto;
+      margin-left: -0%; /* 가운데 맞추기 */
+  }
+
+  /* 이미지 형태일 때 */
+  .ekg-monitor-frame img {
+      width: 110%;
+      height: auto;
+      margin-left: -20%;
+  }
+}
+
 
 
 
